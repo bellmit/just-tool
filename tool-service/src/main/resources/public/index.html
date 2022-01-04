@@ -39,9 +39,9 @@
                 getProgressBar(file, percentage, "MD5", "MD5");
             }).then(function (val) { // 完成
                 console.log('md5 result:', val);
-                file.md5Mark = val;
+                file.md5 = val;
                 // 进行md5判断
-                $.post("tool/test/checkFileMd5", {md5: file.md5},
+                $.post("tool/test/getUpdateProgress", {md5: file.md5},
                         function (data) {
                             console.log(data.status);
                             var status = data.status.value;
@@ -106,7 +106,7 @@
         chunked: true,
         chunkSize: chunkSize, // 字节 1M分块
         threads: 3,
-        server: 'index/fileUpload',
+        server: 'tool/test/fileUpload',
         auto: false,
 
         // 禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。

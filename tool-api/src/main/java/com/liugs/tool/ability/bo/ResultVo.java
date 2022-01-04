@@ -2,11 +2,7 @@ package com.liugs.tool.ability.bo;
 
 import com.liugs.tool.constants.ResultStatus;
 
-/**
- * 统一返回结果pojo
- * Created by wenwen on 2017/4/23.
- * version 1.0
- */
+
 public class ResultVo<T> {
 
     private ResultStatus status;
