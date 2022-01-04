@@ -22,7 +22,7 @@ public class PersonTest {
     @Test
     public void test1() throws Exception{
 
-        String url = "https://cqdev-pay-center.oss-cn-beijing.aliyuncs.com/project-1.0.0.jar?OSSAccessKeyId=LTAI4GKxkPh4E8BuuMDV4R6m&Expires=1631092021&Signature=wcs0WpBTcv6W3MX%2BE0OYUqU%2FOBI%3D";
+        String url = "https://cqdev-pay-center.oss-cn-beijing.aliyuncs.com/project-1.0.0.jar?OSSAccessKeyId=&Expires=1631092021&Signature=wcs0WpBTcv6W3MX%2BE0OYUqU%2FOBI%3D";
 
         KieServices kieServices = KieServices.Factory.get();
 

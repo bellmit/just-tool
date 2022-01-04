@@ -22,7 +22,7 @@ public class TestRuleTester {
 
     @Test
     public void testRule() throws IOException {
-        String url = "https://cqdev-pay-center.oss-cn-beijing.aliyuncs.com/tool-api-1.0.0.jar?OSSAccessKeyId=LTAI4GKxkPh4E8BuuMDV4R6m&Expires=1631180524&Signature=naxbczgwtyNfYDWcOaH7Qv4FEmw%3D";
+        String url = "https://cqdev-pay-center.oss-cn-beijing.aliyuncs.com/tool-api-1.0.0.jar?OSSAccessKeyId=&Expires=1631180524&Signature=naxbczgwtyNfYDWcOaH7Qv4FEmw%3D";
 
         KieServices kieServices = KieServices.Factory.get();
 
