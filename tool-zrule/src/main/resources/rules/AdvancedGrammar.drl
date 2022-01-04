@@ -1,0 +1,73 @@
+package rules;
+
+dialect  "java"
+
+import com.liugs.tool.base.Console
+import com.alibaba.fastjson.JSON
+import com.liugs.tool.drools.bo.AdvancedGrammarBo
+
+/*
+global关键字用于在规则文件中定义全局变量，它可以让应用程序的对象在规则文件中能够被访问。可以用来为规则文件提供数据或服务。
+语法结构为：global 对象类型 对象名称
+在使用global定义的全局变量时有两点需要注意：
+1、如果对象类型为包装类型时，在一个规则中改变了global的值，那么只针对当前规则有效，对其他规则中的global不会有影响。可以理解为它是当前规则代码中的global副本，规则内部修改不会影响全局的使用。
+2、如果对象类型为集合类型或JavaBean时，在一个规则中改变了global的值，对java代码和所有规则都有效。
+*/
+//定义一个包装类型的全局变量
+global java.lang.Integer count
+//定义一个JavaBean类型的全局变量
+global com.liugs.tool.drools.bo.AdvancedGrammarBo dataBo
+//定义一个集合类型的全局变量
+global java.util.List globalList
+
+rule "rule_global_1"
+    date-expires "2021-08-29 00:00"
+    when
+    then
+        //全局变量计算，只对当前规则有效，其他规则不受影响
+       count += 10;
+       dataBo.setDesc("nihao");
+       globalList.add(dataBo);
+       dataBo.show();
+
+       Console.show("rule_global_1: count=" + count);
+       Console.show("rule_global_1: globalList=" + JSON.toJSONString(globalList));
+       dataBo.show();
+       Console.show("==============================================================");
+end
+
+rule "rule_global_2"
+    date-expires "2021-08-29 00:00"
+    when
+    then
+        Console.show("rule_global_1: count=" + count);
+        Console.show("rule_global_1: globalList=" + JSON.toJSONString(globalList));
+        dataBo.show();
+end
+
+//查询，查询working memory中符合约束条件的Fact对象
+query "query_test_1"
+    $model:AdvancedGrammarBo(desc == "hello")
+end
+
+//带有参数的查询
+query "query_test_2"(String condition)
+    $model:AdvancedGrammarBo(desc == condition)
+end
+
+function AdvancedGrammarBo setBo(AdvancedGrammarBo dataBo) {
+    if (dataBo.getDesc().equals("nihao")) {
+        dataBo.setDesc("hello");
+    }
+    return dataBo;
+}
+
+rule "rule_function_1"
+    no-loop true
+    when
+        $dataBo:AdvancedGrammarBo()
+    then
+        $dataBo = setBo($dataBo);
+        Console.show(JSON.toJSONString($dataBo));
+        update($dataBo)
+ end

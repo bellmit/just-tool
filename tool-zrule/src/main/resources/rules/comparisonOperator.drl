@@ -1,0 +1,65 @@
+package rules;
+
+dialect  "java"
+
+import com.liugs.tool.drools.bo.ComparisonOperatorBo
+import com.liugs.tool.drools.bo.ComparisonConditionBo
+import com.liugs.tool.constants.ToolRspBaseBo
+import com.liugs.tool.constants.RespConstants
+import com.liugs.tool.base.Console
+import com.alibaba.fastjson.JSON
+
+
+/*contains: 检查一个Fact对象的某个属性值是否包含一个指定的对象值*/
+rule "comparison_operator_contains"
+    when
+       ComparisonOperatorBo(name contains("9966110"))
+       ComparisonOperatorBo(list contains("9966110"))
+    then
+        Console.show("comparison_operator_contains--匹配成功");
+end
+
+/*not contains: 检查一个Fact对象的某个属性值是否不包含一个指定的对象值*/
+rule "comparison_operator_not_contains"
+    when
+        ComparisonOperatorBo(name not contains("9966110"))
+        ComparisonOperatorBo(list not contains("9966110"))
+    then
+        Console.show("comparison_operator_not_contains--匹配成功");
+end
+
+/*memberOf: 判断一个Fact对象的某个属性是否在一个或多个集合中*/
+
+rule "comparison_operator_memberOf"
+    when
+        ComparisonOperatorBo(name memberOf list);
+    then
+        Console.show("comparison_operator_memberOf--匹配成功");
+
+end
+
+/*not memberOf: 判断一个Fact对象的某个属性是否不在一个或多个集合中*/
+
+rule "comparison_operator_not_memberOf"
+      when
+         ComparisonOperatorBo(name not memberOf list);
+     then
+         Console.show("comparison_operator_not_memberOf--匹配成功");
+
+end
+
+/*matches: 判断一个Fact对象的属性是否与提供的标准的Java正则表达式进行匹配*/
+rule "comparison_operator_matches"
+    when
+        ComparisonOperatorBo(name matches "232.*")
+    then
+        Console.show("comparison_operator_matches--匹配成功");
+end
+
+/*not matches: 判断一个Fact对象的属性是否不与提供的标准的Java正则表达式进行匹配*/
+rule "comparison_operator_not_matches"
+    when
+        ComparisonOperatorBo(name not matches "232.*")
+    then
+        Console.show("comparison_operator_not_matches--匹配成功");
+end

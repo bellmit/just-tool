@@ -1,0 +1,148 @@
+package rules;
+
+import com.liugs.tool.base.Console
+import com.liugs.tool.drools.bo.RuleAttributeBo
+dialect  "java"
+
+//enabled: 用于指定当前规则是否启用，如果设置的值为false则当前规则无论是否匹配成功都不会触发。
+rule "rule_attribute_enabled_false"
+    enabled  false
+    when
+        RuleAttributeBo(name == "dd")
+    then
+        Console.show("rule_attribute_enabled_false is triggered");
+end
+
+rule "rule_attribute_enabled_true"
+    when
+        RuleAttributeBo(name == "dd")
+    then
+        Console.show("rule_attribute_enabled_true is triggered");
+end
+
+//salience: 执行优先级，数值越大，优先级越高
+rule "rule_salience_low"
+    salience 10
+    enabled false
+    when
+        RuleAttributeBo(age < 10)
+    then
+        Console.show("rule_salience_low is triggered");
+end
+
+rule "rule_salience_higher"
+    salience 11
+    enabled false
+    when
+        $dataBo:RuleAttributeBo(age < 10)
+    then
+        $dataBo.setAge(11);
+        update($dataBo)
+        Console.show("rule_salience_higher is triggered");
+end
+
+//no-loop: 防止死循环
+rule "rule_no_loop"
+    no-loop true
+    when
+        $dataBo:RuleAttributeBo(age > 10000000)
+    then
+        //这里铁定会导致死循环
+        update($dataBo)
+        Console.show("rule_salience_no_loop is triggered");
+end
+
+//activation-group：属性是指激活分组，取值为String类型。具有相同分组名称的规则只能有一个规则被触发，具体要哪一个触发可以设置优先级来确定。
+rule "rule_activation_group_1"
+    activation-group "test_rule_group"
+    salience 2
+    when
+        $dataBo:RuleAttributeBo(age == 110)
+    then
+        Console.show("rule_salience_activation_group_1 is triggered");
+end
+rule "rule_activation-group_2"
+    activation-group "test_rule_group"
+    salience 1
+    when
+        $dataBo:RuleAttributeBo(age == 110)
+    then
+        Console.show("rule_salience_activation_group_2 is triggered");
+end
+
+//agenda-group：议程分组，只有获取焦点的组中的规则才会被触发，每个组中的规则不互斥，只要满足条件均可触发
+rule "rule_agenda_group_1"
+    agenda-group "agenda_group_1"
+    when
+        $dataBo:RuleAttributeBo(age == 0)
+    then
+        Console.show("rule_agenda_group_1 is triggered");
+end
+/*auto-focus：自动获取焦点，示例中是给agenda_group_1设置的焦点，可以通过该属性自动获取，这个好像是针对于议程分组生效的
+ *agenda_group_1 是代码里设置了焦点，agenda_group_2是设置了自动获取焦点属性，agenda_group_3焦点
+ */
+rule "rule_agenda_group_2"
+    agenda-group "agenda_group_2"
+//    auto-focus true
+    when
+        $dataBo:RuleAttributeBo(age == 0)
+    then
+        Console.show("rule_agenda_group_2 is triggered");
+end
+rule "rule_agenda_group_3"
+    agenda-group "agenda_group_2"
+    when
+        $dataBo:RuleAttributeBo(age == 0)
+    then
+        Console.show("rule_agenda_group_3 is triggered");
+end
+rule "rule_agenda_group_4"
+    agenda-group "agenda_group_3"
+    when
+        $dataBo:RuleAttributeBo(age == 0)
+    then
+        Console.show("rule_agenda_group_4 is triggered");
+end
+
+/*
+  timer：可以通过定时器的方式指定规则执行的时间，使用方式有两种
+  方式一：timer (int: <initial delay> <repeat interval>?)；此种方式遵循java.util.Timer对象的使用方式，第一个参数表示几秒后执行，第二个参数表示每隔几秒执行一次，第二个参数为可选。
+  方式二：timer(cron: <cron expression>)；此种方式使用标准的unix cron表达式的使用方式来定义规则执行的时间。
+*/
+rule "rule_attribute_timer_1"
+     //5秒后触发，每隔两秒触发一次
+    timer(5s 2s)
+    when
+        RuleAttributeBo(age == 0)
+    then
+        Console.show("rule_attribute_timer_1 is triggered");
+end
+
+rule "rule_attribute_timer_2"
+     //每隔1秒触发一次
+    timer(cron:0/2 * * * * ?)
+    when
+        RuleAttributeBo(age == 0)
+    then
+        Console.show("rule_attribute_timer_2 is triggered");
+end
+
+/*
+date-effective：指定规则的生效时间，当前系统时间大于等于设置的时间或者日期规则才有可能触发。默认日期格式为：dd-MMM-yyyy。用户也可以自定义日期格式。
+*/
+rule "rule_dateeffective_1"
+    date-effective "2021-8-28 16:36"
+    date-expires "2021-8-29 00:00"
+    when
+    then
+        System.out.println("规则rule_dateeffective_1触发");
+end
+/*
+date-expires：指定规则的失效时间，只有当前系统时间小于设置的时间或者日期规则才有可能触发。
+*/
+rule "rule_dateexpires_1"
+    date-expires "2019-10-01 10:00"
+    when
+    then
+        System.out.println("规则rule_dateexpires_1触发");
+end

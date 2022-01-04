@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.liugs.tool.dao.TestMapper">
+  <resultMap id="BaseResultMap" type="com.liugs.tool.dao.po.TestPo">
+    <id column="name" jdbcType="VARCHAR" property="name" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    `name`, age
+  </sql>
+
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from test
+    where `name` = #{name,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

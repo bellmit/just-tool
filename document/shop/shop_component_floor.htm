@@ -1,0 +1,28 @@
+{
+    "respCode":"0000",
+    "messages":"success",
+    "floorName":"{ms:field.typefieldone/}",
+    "floorCode":"{ms:field.typecode/}",
+    "imgUrl":"{ms:field.typelitpic/}",
+    "routerUrl":"{ms:field.typefieldtwo/}",
+    "rows":[
+        {ms:channel isjson=true}
+            {
+                "columnName":"[field.typetitle/]",
+                "columnCode":"[field.typecode/]",
+                "rows":[
+                    {ms:arclist isjson=true typeid=[field.typeid/]}
+                        {
+                        "title":"[field.title/]",
+                        "imgUrl":"[cfield.img/]",
+                        "commodityDesc":"[cfield.description/]",
+                        "price":"[cfield.price/]",
+                        "routerType":"[cfield.router_type/]",
+                        "routerDetail":"[cfield.router_detail/]"
+                        }
+                    {/ms:arclist}
+                ]
+            }
+        {/ms:channel}
+    ]
+}

@@ -1,0 +1,46 @@
+package rules;
+dialect  "java"
+
+import com.liugs.tool.RuleTestOrderBo;
+
+rule "test_rule_1"
+    when
+        $order:RuleTestOrderBo(fee < 100)
+    then
+        System.out.println("成功匹配到规则一");
+end
+
+rule "test_rule_2"
+    when
+        $order:RuleTestOrderBo(fee > 100)
+    then
+        System.out.println("成功匹配到规则二");
+end
+
+rule "test_rule_3"
+    when
+        $order:RuleTestOrderBo(fee > 100) and RuleTestOrderBo(orderType == 3)
+    then
+        System.out.println("成功匹配到规则三");
+end
+
+rule "test_rule_4"
+    when
+        $order:RuleTestOrderBo(fee > 888) and RuleTestOrderBo(orderSource == 1)
+    then
+        $order.setFee(111L);
+        System.out.println("成功匹配到规则四");
+end
+
+rule "test_rule_5"
+    when
+        RuleTestOrderBo()
+    then
+        System.out.println("成功匹配到规则五");
+end
+
+rule "test_rule_6"
+    when
+    then
+        System.out.println("成功匹配到规则六");
+end

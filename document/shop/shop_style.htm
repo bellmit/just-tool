@@ -1,0 +1,25 @@
+{
+    "respCode":"0000",
+    "messages":"success",
+    "data":[
+        {ms:channel isjson=true}
+            {
+                "styleName":"[field.typetitle/]",
+                "styleCode":"[field.typecode/]",
+                "styleImg":"[field.typelitpic/]",
+                "rows":[
+                    {ms:arclist isjson=true typeid=[field.typeid/] orderby=sort order=desc}
+                        {
+                            "title":"[field.title/]",
+                            "code":"[cfield.component_code/]",
+                            "moduleCode":"[cfield.module_code/]",
+                            "verticalSort":"[cfield.vertical_sort/]",
+                            "levelSort":"[cfield.level_sort/]",
+                            "dataUrl":"[cfield.data_url/]"
+                        }
+                    {/ms:arclist}
+                ]
+            }
+        {/ms:channel}
+    ]
+}

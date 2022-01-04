@@ -1,0 +1,61 @@
+package rules;
+
+dialect  "java"
+
+import com.liugs.tool.drools.bo.InnerMethodBo
+import com.liugs.tool.constants.ToolRspBaseBo
+import com.liugs.tool.base.Console
+import com.alibaba.fastjson.JSON
+
+//测试内部方法 update 更新工作内存中的数据
+rule "age_more_than_ten"
+    when
+        $dataBo:InnerMethodBo(age > 10 && age < 20)
+    then
+        Console.show("Successfully matched the rule：age_more_than_ten");
+        $dataBo.setAge(21);
+        update($dataBo)
+end
+
+rule "age_more_than_twenty"
+    when
+        $dataBo:InnerMethodBo(age > 20)
+        $retBo:ToolRspBaseBo();
+    then
+        Console.show("Successfully matched the rule：age_more_than_twenty");
+        $retBo.setRespDesc("rewrwe");
+        update($retBo)
+end
+
+//测试内部方法 retract 删除工作内存中的数据
+rule "score_less_than_eighty_retract"
+    /*
+    salience：设置当前规则的执行优先级，数值越大越优先执行，默认值为0.
+    */
+    salience 100
+    when
+        $dataBo:InnerMethodBo(score < 80)
+    then
+        retract($dataBo)
+        Console.show("Successfully matched the rule：score_less_than_eighty_retract");
+end
+
+rule "score_less_than_ninety_insert"
+    salience 101
+    when
+        $dataBo:InnerMethodBo(score < 90 && age < 10)
+    then
+        InnerMethodBo newDataBo = new InnerMethodBo();
+        newDataBo.setScore(100);
+        newDataBo.setAge(20);
+        newDataBo.setName("newDataBo");
+        insert(newDataBo);
+        Console.show("Successfully matched the rule：score_less_than_ninety_insert");
+end
+
+rule "score_more_than_ninety"
+    when
+        $dataBo:InnerMethodBo(score > 90)
+    then
+        Console.show("Successfully matched the rule：score_more_than_ninety" + JSON.toJSONString($dataBo));
+end

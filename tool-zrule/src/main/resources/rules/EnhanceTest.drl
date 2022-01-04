@@ -1,0 +1,74 @@
+package rules;
+dialect  "java"
+
+import com.liugs.tool.drools.bo.EnhanceTestBo
+import com.liugs.tool.drools.bo.AdvancedGrammarBo
+import com.liugs.tool.base.Console
+
+rule "compound_value_limit_in"
+    when
+        $dataBo:EnhanceTestBo(testField in ("1", "2", "3", "4", "5"))
+    then
+        Console.show("Successfully matched the rule：compound_value_limit_in");
+end
+
+rule "compound_value_limit_not_in"
+    when
+        $dataBo:EnhanceTestBo(testField not in ("1", "2", "3", "4", "5"))
+    then
+        Console.show("Successfully matched the rule：compound_value_limit_not_in");
+end
+
+//如果在workMemory中有多个满足条件的fact,使用了exists的规则执行一次，不使用exists的规则会执行多次
+//判断Working Memory中是否存在某个Fact对象
+rule "compound_value_limit_exists"
+    date-expires "2021-08-29 00:00"
+    when
+        exists EnhanceTestBo()
+    then
+        Console.show("Successfully matched the rule：compound_value_limit_exists");
+end
+
+//not用于判断Working Memory中是否存在某个Fact对象，不存在返回true
+rule "compound_value_limit_not"
+    date-expires "2021-08-29 00:00"
+    when
+        not AdvancedGrammarBo()
+    then
+        Console.show("Successfully matched the rule：compound_value_limit_not");
+end
+
+//规则继承
+rule "compound_value_limit_child" extends "compound_value_limit_in"
+    when
+        /*
+        此处的条件虽然只写了一个，但是从上面的规则继承了一个条件，
+        所以当前规则存在两个条件，即Student(age < 20)和Student(age > 10)
+        */
+        EnhanceTestBo(testField == 1)
+    then
+        Console.show("Successfully matched the rule：compound_value_limit_child");
+end
+
+rule "rule_halt_1"
+    salience 100
+    when
+    then
+        Console.show("Successfully matched the rule：rule_halt_1");
+        //立即终止后面所有规则执行
+        drools.halt();
+end
+//返回工作内存对象。
+rule "rule_getWorkingMemory"
+    salience 101
+    when
+    then
+        Console.show(drools.getWorkingMemory());
+end
+//返回规则对象。
+rule "rule_getRule"
+    salience 102
+    when
+    then
+        Console.show(drools.getRule());
+end

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="getBeanTest" class="com.liugs.tool.bean.subelement.GetBeanTest">
+        <lookup-method name="getBean" bean="student"/>
+    </bean>
+
+    <bean id="user" class="com.liugs.tool.bean.subelement.User">
+        <constructor-arg index="0">
+            <value>user</value>
+        </constructor-arg>
+    </bean>
+
+    <bean id="student" class="com.liugs.tool.bean.subelement.Student">
+        <constructor-arg index="0">
+            <value>Heji</value>
+        </constructor-arg>
+<!--        <replaced-method name="showMe" replacer="methodReplacer"/>-->
+    </bean>
+
+    <bean id="methodReplacer" class="com.liugs.tool.bean.subelement.StudentShowMeReplacer"/>
+</beans>
