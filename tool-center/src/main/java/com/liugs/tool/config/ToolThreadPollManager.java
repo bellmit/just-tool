@@ -35,7 +35,7 @@ public class ToolThreadPollManager {
      */
     private static final String THREAD_NAME_PREFIX = "PAY-ASYNC-";
 
-    @Bean("ToolAsyncExecutor")
+    @Bean("toolAsyncExecutor")
     public Executor payAsyncExecutor() {
 
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();

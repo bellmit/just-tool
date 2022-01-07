@@ -3,6 +3,9 @@ package com.liugs.tool.ability.impl;
 import com.liugs.tool.ability.ValidateService;
 import com.liugs.tool.ability.bo.ValidateServiceReqBo;
 import com.liugs.tool.ability.bo.ValidateServiceRspBo;
+import com.liugs.tool.async.AsyncQueueTaskBO;
+import com.liugs.tool.async.AsyncTaskExecutor;
+import com.liugs.tool.async.AsyncTaskManager;
 import com.liugs.tool.dao.TestMapper;
 import com.liugs.tool.dao.po.TestPo;
 import com.liugs.tool.util.ToolRspUtil;
@@ -57,6 +60,23 @@ public class ValidateServiceImpl implements ValidateService {
         ks.insert(ruleTestOrderBo);
         int result = ks.fireAllRules();
         log.info("触发到了{}条规则", result);*/
+
+        AsyncTaskManager asyncTaskManager = AsyncTaskManager.getInstance();
+        AsyncTaskExecutor executor1 = new AsyncTaskExecutor();
+        AsyncTaskExecutor executor2 = new AsyncTaskExecutor();
+        asyncTaskManager.addExecutor(executor1);
+//        asyncTaskManager.addExecutor(executor2);
+
+        Integer num = 0;
+        while (true) {
+            AsyncQueueTaskBO taskBO = new AsyncQueueTaskBO();
+            taskBO.setSourcePath(num.toString());
+            asyncTaskManager.recordTaskAndTriggerExecutor(taskBO);
+            if (num ++ > 20) {
+                break;
+            }
+        }
+
         return ToolRspUtil.getSuccessRspBo(ValidateServiceRspBo.class);
     }
 }

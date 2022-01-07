@@ -135,6 +135,13 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
+
+        <!--   三方jar包，用解决个性化模板生成的文件Excel无法打开的问题   -->
+        <dependency>
+            <groupId>com.aspose.cell</groupId>
+            <artifactId>aspose-cells</artifactId>
+            <version>8.5.2</version>
+        </dependency>
     </dependencies>
 
 </project>
