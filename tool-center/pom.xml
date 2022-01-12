@@ -135,6 +135,14 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
+        <!-- fastdfs -->
+        <dependency>
+            <groupId>org.csource</groupId>
+            <artifactId>fastdfs-client-java</artifactId>
+            <version>1.29-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/lib/fastdfs-client-java-1.29-SNAPSHOT.jar</systemPath>
+        </dependency>
 
         <!--   三方jar包，用解决个性化模板生成的文件Excel无法打开的问题   -->
         <dependency>
