@@ -51,6 +51,15 @@ public class ToolTestController {
         return validateService.validate(reqBo);
     }
 
+    @RequestMapping(value = "/testDownload", method = RequestMethod.POST)
+    @ResponseBody
+    public Object validate() {
+        JSONObject respJSON = new JSONObject();
+        respJSON.put("code", "0");
+        respJSON.put("message", "成功");
+        return respJSON;
+    }
+
     @RequestMapping(value = "/validateRule", method = RequestMethod.POST)
     @ResponseBody
     public Object validateRule(@RequestBody ValidateServiceReqBo reqBo) {
