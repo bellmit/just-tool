@@ -1,0 +1,16 @@
+//真实路径，可以用作一个分类吧
+package rules;
+//引入实体
+import com.liugs.tool.ability.bo.DroolsReqBO
+import com.liugs.tool.base.Console
+
+//定义规则
+rule "test_1"
+    when
+        //DroolsReqBO：类型约束    value < 100：属性约束
+        $reqBO:DroolsReqBO(value < 100) //模式匹配，到规则引擎中（工作内存）查找Order对象，条件（orgPrice < 100）
+        //如果有多个条件，可用使用or 或 and连接，不写默认and
+    then
+        $reqBO.setTarget("搞鸡毛");
+        Console.show("成功匹配到规则一：" + $reqBO.getTarget());
+end

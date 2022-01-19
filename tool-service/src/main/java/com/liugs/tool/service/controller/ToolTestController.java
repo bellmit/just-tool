@@ -2,6 +2,7 @@ package com.liugs.tool.service.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.liugs.tool.ability.DroolsService;
 import com.liugs.tool.ability.ExportDataService;
 import com.liugs.tool.ability.FileUploadService;
 import com.liugs.tool.ability.ValidateService;
@@ -145,6 +146,15 @@ public class ToolTestController {
             }
             return new ResultVo<>(ResultStatus.ING_HAVE, missChunkList);
         }
+    }
+
+    @Autowired
+    private DroolsService droolsService;
+
+    @RequestMapping(value = "trigger", method = RequestMethod.POST)
+    @ResponseBody
+    public DroolsRspBO trigger(@RequestBody DroolsReqBO reqBO) {
+        return droolsService.trigger(reqBO);
     }
 
 
