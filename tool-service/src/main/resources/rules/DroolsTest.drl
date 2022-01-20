@@ -2,8 +2,10 @@
 package rules;
 //引入实体
 import com.liugs.tool.ability.bo.DroolsReqBO
+import com.liugs.tool.ability.bo.DroolsDataBO
 import com.liugs.tool.base.Console
 
+global com.liugs.tool.ability.bo.DroolsDataBO dataBO
 //定义规则
 rule "test_1"
     when
@@ -13,4 +15,14 @@ rule "test_1"
     then
         $reqBO.setTarget("搞鸡毛");
         Console.show("成功匹配到规则一：" + $reqBO.getTarget());
+end
+
+rule "test_2"
+    when
+        $reqBo:DroolsReqBO(value > 100)
+    then
+        $reqBo.setValue(100000);
+        $reqBo.setTarget("成功匹配到规则二");
+        dataBO.setValue("成功匹配到规则二");
+        Console.show("成功匹配到规则二：" + $reqBo.getValue());
 end
